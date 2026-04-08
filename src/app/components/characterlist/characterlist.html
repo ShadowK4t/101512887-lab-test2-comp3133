@@ -1,1 +1,37 @@
-<p>characterlist works!</p>
+<div class="container">
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" />
+    </div>
+  }
+
+  @if (hasError()) {
+    <p class="error">Failed to load characters. Please try again.</p>
+  }
+
+  @if (!isLoading() && !hasError()) {
+    <div class="grid">
+      @for (character of characters(); track character.id) {
+        <mat-card class="character-card" [routerLink]="['/character', character.id]">
+          @if (character.image) {
+            <img [src]="character.image" [alt]="character.name" class="character-img" />
+          } @else {
+            <div class="no-image">No Image</div>
+          }
+          <mat-card-content>
+            <h3>{{ character.name }}</h3>
+            @switch (character.house) {
+              @case ('Gryffindor') { <span class="house gryffindor">Gryffindor</span> }
+              @case ('Slytherin') { <span class="house slytherin">Slytherin</span> }
+              @case ('Hufflepuff') { <span class="house hufflepuff">Hufflepuff</span> }
+              @case ('Ravenclaw') { <span class="house ravenclaw">Ravenclaw</span> }
+              @default { <span class="house no-house">No House</span> }
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+
+</div>
